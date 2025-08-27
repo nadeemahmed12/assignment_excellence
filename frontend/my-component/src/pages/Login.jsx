@@ -9,21 +9,24 @@ function Login() {
   const navigate = useNavigate();
 
   async function handleLogin() {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
+  const res = await fetch("http://localhost:3000/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ 
+      identifier: email,  // <-- yahan "identifier" ka naam use karo
+      password           // <-- password same
+    })
+  });
 
-    const data = await res.json();
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/dashboard");
-    } else {
-      alert(data.message || "Login failed");
-    }
-  }
+  const data = await res.json();
+  if (res.ok && data.token) {  // res.ok bhi check karna better hai
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    navigate("/dashboard");
+  } else {
+    alert(data.message || "Login failed");
+   }
+ }
 
   return (
     <div className="container">
