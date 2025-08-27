@@ -27,11 +27,18 @@ function Dashboard() {
     setTodos(todos.filter(t=>t._id!==id));
   }
 
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/register"); // navigate to register page
+  }
+
   return (
     <div className="container">
-      <h2>Welcome {user.name} ({user.role})</h2>
+      <h2>Welcome {user.username} ({user.role})</h2>
       <button onClick={()=>navigate("/add-todo")}>Add Todo</button>
       {user.role==="admin" && <button onClick={()=>navigate("/admin")}>Admin Dashboard</button>}
+      <button onClick={handleLogout}>Logout</button> {/* Logout button */}
       <div className="todo-list">
         {todos.map(t=>(
           <TodoCard key={t._id} todo={t} onDelete={handleDelete} />

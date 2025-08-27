@@ -12,9 +12,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/register" />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register />}  />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-todo" element={<AddTodo />} />
         <Route path="/admin" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to="/" />} />

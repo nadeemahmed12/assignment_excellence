@@ -5,17 +5,23 @@ const signToken = (user) => jwt.sign({ id: user._id, role: user.role }, process.
 
 export const register = async (req, res, next) => {
   try {
-    const { email, username, password } = req.body;
+    const { email, username, password, role } = req.body;  // role bhi le lo
+    
     const exists = await User.findOne({ $or: [{ email }, { username }] });
     if (exists) return res.status(409).json({ message: "Email or username already exists" });
 
-    const user = await User.create({ email, username, password });
-    const token = signToken(user);
-    res.status(201).json({ token, user: { id: user._id, email, username, role: user.role } });
+    const user = await User.create({ email, username, password, role });  // role save karo
+
+    const token = signToken(user);   // yahan role JWT me aa jayega
+    res.status(201).json({ 
+      token, 
+      user: { id: user._id, email, username, role: user.role } 
+    });
   } catch (err) {
     next(err);
   }
 };
+
 
 export const login = async (req, res, next) => {
   try {
